@@ -1,0 +1,265 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f4f6f9;
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0 0 6px;
+  font-size: 1.75rem;
+  color: #0f172a;
+}
+
+.header p {
+  margin: 0;
+  color: #475569;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #dce3ec;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #0f172a;
+}
+
+.auth-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-row label {
+  font-weight: 600;
+  min-width: 165px;
+}
+
+.auth-row input {
+  flex: 1;
+  min-width: 240px;
+  padding: 9px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.auth-row input:focus {
+  outline: 2px solid #2563eb;
+  border-color: #2563eb;
+}
+
+.hint {
+  margin: 6px 0 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 9px 16px;
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+.btn-accent {
+  background-color: #0f766e;
+}
+
+.btn-accent:hover:not(:disabled) {
+  background-color: #0d5f59;
+}
+
+.message {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.925rem;
+}
+
+.message.info {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+}
+
+.message.error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+.empty {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 0.925rem;
+}
+
+.panels-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.panels-grid .card {
+  margin-bottom: 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 16px;
+}
+
+.summary-box {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.summary-box span {
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.summary-box strong {
+  font-size: 1.25rem;
+}
+
+.summary-box.success {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #166534;
+}
+
+.summary-box.ignored {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.summary-box.error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+
+.summary-box.total {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 9px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  word-break: break-word;
+}
+
+th {
+  background-color: #f8fafc;
+  color: #334155;
+  font-weight: 600;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge.success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge.ignored {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+@media (max-width: 840px) {
+  .panels-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
