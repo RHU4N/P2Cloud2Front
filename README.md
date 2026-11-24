@@ -16,8 +16,6 @@ Copie `.env.example` para `.env` e informe a URL do backend:
 VITE_API_URL=http://localhost:3000
 ```
 
-O token administrativo (`APP_ACCESS_TOKEN`) não deve ser colocado no build; ele é digitado na tela e mantido apenas em memória.
-
 ## Execução local
 
 ```bash

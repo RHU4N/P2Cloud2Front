@@ -1,6 +1,6 @@
 const API_URL = (import.meta.env.VITE_API_URL || "").trim().replace(/\/+$/, "");
 
-async function request(path, { method = "GET", token = "" } = {}) {
+async function request(path, { method = "GET" } = {}) {
   if (!API_URL) {
     throw new Error("URL da API (VITE_API_URL) não configurada.");
   }
@@ -11,11 +11,6 @@ async function request(path, { method = "GET", token = "" } = {}) {
 
   if (method === "POST") {
     headers["Content-Type"] = "application/json";
-  }
-
-  const cleanToken = token.trim();
-  if (cleanToken) {
-    headers.Authorization = `Bearer ${cleanToken}`;
   }
 
   const response = await fetch(`${API_URL}${path}`, {
@@ -32,14 +27,14 @@ async function request(path, { method = "GET", token = "" } = {}) {
   return data;
 }
 
-export function listDriveFiles(token) {
-  return request("/api/drive/files", { method: "GET", token });
+export function listDriveFiles() {
+  return request("/api/drive/files", { method: "GET" });
 }
 
-export function listBlobFiles(token) {
-  return request("/api/blob/files", { method: "GET", token });
+export function listBlobFiles() {
+  return request("/api/blob/files", { method: "GET" });
 }
 
-export function transferFiles(token) {
-  return request("/api/transfer", { method: "POST", token });
+export function transferFiles() {
+  return request("/api/transfer", { method: "POST" });
 }

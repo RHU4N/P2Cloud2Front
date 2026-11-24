@@ -45,32 +45,6 @@ body {
   color: #0f172a;
 }
 
-.auth-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-}
-
-.auth-row label {
-  font-weight: 600;
-  min-width: 165px;
-}
-
-.auth-row input {
-  flex: 1;
-  min-width: 240px;
-  padding: 9px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 0.95rem;
-}
-
-.auth-row input:focus {
-  outline: 2px solid #2563eb;
-  border-color: #2563eb;
-}
-
 .hint {
   margin: 6px 0 0;
   font-size: 0.875rem;

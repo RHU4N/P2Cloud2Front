@@ -22,9 +22,6 @@ const STATUS_LABEL = {
 };
 
 export default function App() {
-  const [token, setToken] = useState("");
-  const [authError, setAuthError] = useState("");
-
   const [driveFiles, setDriveFiles] = useState([]);
   const [driveLoaded, setDriveLoaded] = useState(false);
   const [loadingDrive, setLoadingDrive] = useState(false);
@@ -40,22 +37,11 @@ export default function App() {
   const [transferError, setTransferError] = useState("");
   const [transferResult, setTransferResult] = useState(null);
 
-  function ensureToken() {
-    if (!token.trim()) {
-      setAuthError("Informe o token administrativo para consultar ou migrar arquivos.");
-      return false;
-    }
-    setAuthError("");
-    return true;
-  }
-
   async function handleListDrive() {
-    if (!ensureToken()) return;
-
     setLoadingDrive(true);
     setDriveError("");
     try {
-      const data = await listDriveFiles(token);
+      const data = await listDriveFiles();
       setDriveFiles(data.files || []);
       setDriveLoaded(true);
     } catch (err) {
@@ -66,12 +52,10 @@ export default function App() {
   }
 
   async function handleListBlob() {
-    if (!ensureToken()) return;
-
     setLoadingBlob(true);
     setBlobError("");
     try {
-      const data = await listBlobFiles(token);
+      const data = await listBlobFiles();
       setBlobFiles(data.files || []);
       setBlobContainer(data.container || "");
       setBlobLoaded(true);
@@ -83,17 +67,15 @@ export default function App() {
   }
 
   async function handleTransfer() {
-    if (!ensureToken()) return;
-
     setTransferring(true);
     setTransferError("");
     try {
-      const data = await transferFiles(token);
+      const data = await transferFiles();
       setTransferResult(data);
 
       if (data.summary && data.summary.uploaded > 0) {
         try {
-          const updatedBlobs = await listBlobFiles(token);
+          const updatedBlobs = await listBlobFiles();
           setBlobFiles(updatedBlobs.files || []);
           setBlobContainer(updatedBlobs.container || "");
           setBlobLoaded(true);
@@ -118,27 +100,6 @@ export default function App() {
           consultar o contêiner no Azure Blob Storage e copiar os arquivos sem sobrescrever.
         </p>
       </header>
-
-      <section className="card auth-card">
-        <div className="auth-row">
-          <label htmlFor="admin-token">Token administrativo</label>
-          <input
-            id="admin-token"
-            type="password"
-            autoComplete="off"
-            value={token}
-            onChange={(event) => {
-              setToken(event.target.value);
-              if (authError) setAuthError("");
-            }}
-            placeholder="Informe o token administrativo"
-          />
-        </div>
-        <p className="hint">
-          O token permanece somente na memória da página e é enviado no cabeçalho Authorization.
-        </p>
-        {authError && <p className="message error">{authError}</p>}
-      </section>
 
       <section className="card transfer-card">
         <div className="section-header">
