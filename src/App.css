@@ -148,7 +148,7 @@ h1 span {
 .intro-copy {
   color: #64777c;
   font-size: 15px;
-  max-width: 560px;
+  max-width: 600px;
   margin: 0 0 23px;
 }
 
@@ -208,12 +208,12 @@ h2 {
   transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.azure-dropzone.drop-ready {
+.cloud-dropzone.drop-ready {
   border-style: dashed;
   border-color: #87bbb0;
 }
 
-.azure-dropzone.drag-over {
+.cloud-dropzone.drag-over {
   border: 2px dashed #209886;
   background: #edf8f4;
   box-shadow: 0 0 0 4px rgba(32, 152, 134, 0.14);
@@ -249,7 +249,7 @@ h2 {
   flex-shrink: 0;
   display: grid;
   place-items: center;
-  font-size: 28px;
+  font-size: 26px;
   border-radius: 9px;
   font-weight: 600;
 }
@@ -262,6 +262,12 @@ h2 {
 .azure-icon {
   background: #eaf3fb;
   color: #3480bd;
+}
+
+.upload-icon {
+  background: #edf3f1;
+  color: #163e44;
+  font-size: 22px;
 }
 
 .card-title .eyebrow {
@@ -476,6 +482,126 @@ td small {
   color: #8c9a99;
 }
 
+.upload-card {
+  margin-top: 22px;
+}
+
+.upload-dropzone {
+  margin-top: 16px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px dashed #cddcd7;
+  background: #f8fbfa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.upload-dropzone.drag-over {
+  border-color: #209886;
+  background: #e7f6f1;
+}
+
+.upload-dropzone p {
+  margin: 0;
+  font-size: 12px;
+  color: #546c70;
+  flex: 1;
+  min-width: 240px;
+}
+
+.upload-pick-btn {
+  width: auto;
+  gap: 14px;
+}
+
+.upload-queue-wrap {
+  margin-top: 14px;
+}
+
+.upload-queue {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  border: 1px solid #e7ecea;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.upload-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eef2f0;
+  font-size: 12px;
+}
+
+.upload-item:last-child {
+  border-bottom: 0;
+}
+
+.upload-item small {
+  display: block;
+  font-size: 10px;
+  color: #778988;
+}
+
+.remove-file-btn {
+  border: 1px solid #d7e1df;
+  background: #fff;
+  color: #6b7d80;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.remove-file-btn:hover:enabled {
+  background: #fff0ed;
+  border-color: #f0ccc3;
+  color: #974c40;
+}
+
+.upload-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.upload-btn {
+  border: 0;
+  border-radius: 7px;
+  padding: 11px 16px;
+  font-size: 12px;
+  font-weight: 650;
+  color: #fff;
+}
+
+.upload-btn-azure {
+  background: #2f74ab;
+}
+
+.upload-btn-azure:hover:enabled {
+  background: #26608f;
+}
+
+.upload-btn-drive {
+  background: #3d7d47;
+}
+
+.upload-btn-drive:hover:enabled {
+  background: #32683b;
+}
+
 .migration {
   margin-top: 24px;
   border: 1px solid #d8e4df;
@@ -527,7 +653,7 @@ td small {
   padding: 13px 17px;
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 18px;
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
@@ -537,23 +663,27 @@ td small {
   background: #e1f5c9;
 }
 
-.primary-button span {
-  font-size: 19px;
+.primary-button span,
+.ghost-button span {
+  font-size: 18px;
 }
 
 .ghost-button {
-  border: 1px solid rgba(213, 239, 179, 0.45);
+  border: 1px solid rgba(213, 239, 179, 0.55);
   background: transparent;
   color: #e4f4d0;
   border-radius: 7px;
-  padding: 13px 15px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 650;
   white-space: nowrap;
 }
 
 .ghost-button:hover:enabled {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 .migration-details {
@@ -575,10 +705,10 @@ td small {
   font-size: 12px;
   color: #974c40;
   overflow-wrap: anywhere;
+  margin-top: 12px;
 }
 
 .migration-details .error-message {
-  margin-top: 12px;
   margin-bottom: 0;
 }
 
@@ -636,11 +766,6 @@ td small {
 
 .summary > div:nth-child(3) dd {
   color: #87816a;
-}
-
-.result-note {
-  font-size: 11px;
-  color: #6f8380;
 }
 
 .results td:last-child {
@@ -734,7 +859,10 @@ footer p {
 
   .migration-actions,
   .primary-button,
-  .ghost-button {
+  .ghost-button,
+  .upload-actions,
+  .upload-btn,
+  .upload-pick-btn {
     width: 100%;
     justify-content: space-between;
   }
