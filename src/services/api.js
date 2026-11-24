@@ -1,4 +1,4 @@
-const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:3001").trim().replace(/\/+$/, "");
+const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:3000").trim().replace(/\/+$/, "");
 
 async function request(path, { method = "GET", body, signal } = {}) {
   if (!API_URL) {
