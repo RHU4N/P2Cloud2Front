@@ -355,6 +355,33 @@ h2 {
   text-decoration: underline;
 }
 
+.danger-link-button {
+  color: #9e3f32;
+}
+
+.size-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.row-delete-btn {
+  border: 1px solid #e3e9e7;
+  background: #fff;
+  color: #8f473d;
+  border-radius: 5px;
+  padding: 3px 6px;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.row-delete-btn:hover:enabled {
+  background: #fff0ed;
+  border-color: #ebc2b8;
+  color: #973d31;
+}
+
 .empty-state {
   text-align: center;
   padding: 36px 6px 23px;
@@ -795,6 +822,11 @@ td small {
 .result-badge.ignored {
   background: #f0eee5;
   color: #817852;
+}
+
+.result-badge.deleted {
+  background: #fdeceb;
+  color: #9b3f35;
 }
 
 footer {

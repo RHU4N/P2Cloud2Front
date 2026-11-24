@@ -7,6 +7,8 @@ import {
   transferBlobToDrive,
   uploadToBlob,
   uploadToDrive,
+  deleteDriveFiles,
+  deleteBlobFiles,
 } from "./services/api";
 
 function formatSize(size) {
@@ -21,6 +23,7 @@ function formatSize(size) {
 
 const RESULT_LABELS = {
   success: "Copiado",
+  deleted: "Excluído",
   error: "Erro",
   ignored: "Ignorado",
 };
@@ -30,6 +33,8 @@ const OPERATION_TITLES = {
   "blob-to-drive": "Azure → Drive",
   "upload-blob": "Upload → Azure",
   "upload-drive": "Upload → Google Drive",
+  "delete-drive": "Exclusão · Google Drive",
+  "delete-blob": "Exclusão · Azure Blob Storage",
 };
 
 function hasNativeFiles(dataTransfer) {
@@ -186,6 +191,28 @@ export default function App() {
         } catch {
           // Mantém o resultado mesmo se o refresh falhar.
         }
+      } else if (action === "delete-drive") {
+        setSummary(null);
+        const result = await deleteDriveFiles(payload);
+        setSummary(result);
+        setLastOperation("delete-drive");
+        setSelectedDriveIds(new Set());
+        try {
+          await refreshDrive();
+        } catch {
+          // Mantém o resultado mesmo se o refresh falhar.
+        }
+      } else if (action === "delete-blob") {
+        setSummary(null);
+        const result = await deleteBlobFiles(payload);
+        setSummary(result);
+        setLastOperation("delete-blob");
+        setSelectedBlobNames(new Set());
+        try {
+          await refreshBlob();
+        } catch {
+          // Mantém o resultado mesmo se o refresh falhar.
+        }
       }
 
       setHealth("online");
@@ -215,6 +242,19 @@ export default function App() {
       else next.add(name);
       return next;
     });
+  }
+
+  function confirmAndDelete(target, items, displayLabel) {
+    if (busy || !items || items.length === 0) return;
+    const cloudName = target === "drive" ? "Google Drive" : "Azure Blob Storage";
+    const subject =
+      items.length === 1
+        ? `o arquivo "${displayLabel}"`
+        : `os ${items.length} arquivos selecionados`;
+    if (!window.confirm(`Deseja realmente apagar ${subject} de ${cloudName}?`)) {
+      return;
+    }
+    run(target === "drive" ? "delete-drive" : "delete-blob", items);
   }
 
   function appendQueuedFiles(fileList) {
@@ -410,7 +450,10 @@ export default function App() {
     "blob-to-drive",
     "upload-blob",
     "upload-drive",
+    "delete-drive",
+    "delete-blob",
   ].includes(busy);
+  const isDeleteOp = lastOperation === "delete-drive" || lastOperation === "delete-blob";
 
   const healthText = {
     checking: "Verificando API",
@@ -540,14 +583,26 @@ export default function App() {
                       Selecionar todos
                     </button>
                     {selectedDriveIds.size > 0 && (
-                      <button
-                        type="button"
-                        className="link-button"
-                        disabled={disabled}
-                        onClick={() => setSelectedDriveIds(new Set())}
-                      >
-                        Limpar
-                      </button>
+                      <>
+                        <button
+                          type="button"
+                          className="link-button"
+                          disabled={disabled}
+                          onClick={() => setSelectedDriveIds(new Set())}
+                        >
+                          Limpar
+                        </button>
+                        <button
+                          type="button"
+                          className="link-button danger-link-button"
+                          disabled={disabled}
+                          onClick={() =>
+                            confirmAndDelete("drive", selectedDriveArray, selectedDriveArray[0])
+                          }
+                        >
+                          Apagar selecionados ({selectedDriveIds.size})
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
@@ -613,7 +668,21 @@ export default function App() {
                               <small>{file.mimeType}</small>
                               <small className="file-id">ID: {file.id}</small>
                             </td>
-                            <td>{formatSize(file.size)}</td>
+                            <td>
+                              <div className="size-actions">
+                                <span>{formatSize(file.size)}</span>
+                                <button
+                                  type="button"
+                                  className="row-delete-btn"
+                                  disabled={disabled}
+                                  onClick={() => confirmAndDelete("drive", [file.id], file.name)}
+                                  aria-label={`Apagar ${file.name} do Google Drive`}
+                                  title="Apagar do Google Drive"
+                                >
+                                  🗑
+                                </button>
+                              </div>
+                            </td>
                           </tr>
                         );
                       })}
@@ -701,14 +770,26 @@ export default function App() {
                       Selecionar todos
                     </button>
                     {selectedBlobNames.size > 0 && (
-                      <button
-                        type="button"
-                        className="link-button"
-                        disabled={disabled}
-                        onClick={() => setSelectedBlobNames(new Set())}
-                      >
-                        Limpar
-                      </button>
+                      <>
+                        <button
+                          type="button"
+                          className="link-button"
+                          disabled={disabled}
+                          onClick={() => setSelectedBlobNames(new Set())}
+                        >
+                          Limpar
+                        </button>
+                        <button
+                          type="button"
+                          className="link-button danger-link-button"
+                          disabled={disabled}
+                          onClick={() =>
+                            confirmAndDelete("blob", selectedBlobArray, selectedBlobArray[0])
+                          }
+                        >
+                          Apagar selecionados ({selectedBlobNames.size})
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
@@ -773,7 +854,21 @@ export default function App() {
                               <strong>{file.name}</strong>
                               {file.contentType && <small>{file.contentType}</small>}
                             </td>
-                            <td>{formatSize(file.size)}</td>
+                            <td>
+                              <div className="size-actions">
+                                <span>{formatSize(file.size)}</span>
+                                <button
+                                  type="button"
+                                  className="row-delete-btn"
+                                  disabled={disabled}
+                                  onClick={() => confirmAndDelete("blob", [file.name], file.name)}
+                                  aria-label={`Apagar ${file.name} do Azure`}
+                                  title="Apagar do Azure"
+                                >
+                                  🗑
+                                </button>
+                              </div>
+                            </td>
                           </tr>
                         );
                       })}
@@ -967,8 +1062,12 @@ export default function App() {
 
                 <dl className="summary">
                   <div>
-                    <dt>Copiados</dt>
-                    <dd>{summary.summary?.uploaded ?? 0}</dd>
+                    <dt>{isDeleteOp ? "Excluídos" : "Copiados"}</dt>
+                    <dd>
+                      {isDeleteOp
+                        ? summary.summary?.deleted ?? 0
+                        : summary.summary?.uploaded ?? 0}
+                    </dd>
                   </div>
                   <div>
                     <dt>Com erro</dt>

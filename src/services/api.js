@@ -79,3 +79,11 @@ export function uploadToDrive(files) {
   }
   return request("/api/upload/drive", { method: "POST", body: formData });
 }
+
+export function deleteDriveFiles(fileIds) {
+  return request("/api/drive/files", { method: "DELETE", body: { fileIds } });
+}
+
+export function deleteBlobFiles(fileNames) {
+  return request("/api/blob/files", { method: "DELETE", body: { fileNames } });
+}
